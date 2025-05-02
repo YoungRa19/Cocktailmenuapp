@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:coktailmenuapp/models/cocktail.dart';
+import 'package:coktailmenuapp/models/drink.dart';
 
 class Index extends StatefulWidget {
   const Index({super.key});
@@ -10,18 +10,19 @@ class Index extends StatefulWidget {
 
 class _IndexState extends State<Index> {
   bool loading = true;
-  List<Cocktail> cocktails = [];
+  String? drinkname;
+  List<Drink> drinks = [];
 
   @override
   void initState() {
     super.initState();
-    getCocktail();
+    getDrink();
   }
 
-  Future<void> getCocktail() async {
-    cocktails = await Cocktail.getCocktail();
-    for (var cocktail in cocktails) {
-      print(cocktail.toMap());
+  Future<void> getDrink() async {
+    drinks = await Drink.getDrink();
+    for (var drink in drinks) {
+      print(drink.toMap());
     }
     setState(() {
       loading = false;
@@ -40,7 +41,7 @@ class _IndexState extends State<Index> {
       body: loading
           ? Center(child: CircularProgressIndicator())
           : ListView.builder(
-              itemCount: cocktails.length,
+              itemCount: drinks.length,
               itemBuilder: (context, index) {
                 return Container(
                   margin: EdgeInsets.fromLTRB(10, 3, 10, 3),
@@ -50,7 +51,7 @@ class _IndexState extends State<Index> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        cocktails[index].cocktail ?? 'Cocktail no disponible',
+                        drinks[index].strDrink ?? 'Cocktail no disponible',
                         style: TextStyle(
                           color: Colors.white,
                           fontWeight: FontWeight.bold,
