@@ -8,38 +8,36 @@ class Drink {
   String? strGlass;
   String? strInstructionsES;
 
-  Drink(
-      {this.strDrink,
-      this.idDrink,
-      this.strCategory,
-      this.strAlcoholic,
-      this.strGlass,
-      this.strInstructionsES});
+  Drink({
+    this.strDrink,
+    this.idDrink,
+    this.strCategory,
+    this.strAlcoholic,
+    this.strGlass,
+    this.strInstructionsES,
+  });
 
-  factory Drink.fromJson(json) {
+  factory Drink.fromJson(Map<String, dynamic> json) {
     return Drink(
-        strDrink: json["strDrink"],
-        idDrink: json["idDrink"],
-        strCategory: json["strCategory"],
-        strAlcoholic: json["strAlcoholic"],
-        strGlass: json["strGlass"],
-        strInstructionsES: json["strInstructionsES"]);
+      strDrink: json["strDrink"],
+      idDrink: int.tryParse(json["idDrink"] ?? ''),
+      strCategory: json["strCategory"],
+      strAlcoholic: json["strAlcoholic"],
+      strGlass: json["strGlass"],
+      strInstructionsES: json["strInstructionsES"],
+    );
   }
 
-  static Future<List<Drink>> getDrink() async {
+  static Future<List<Drink>> getDrinkByName(String name) async {
     try {
-      List<Drink> strDrink = [];
       final response = await Dio().get(
-        'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=margarita?api-key=1',
+        'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=$name',
       );
-      final results = response.data["results"];
-      for (var result in results) {
-        strDrink.add(Drink.fromJson(result));
-      }
-      return strDrink;
+      final drinksJson = response.data["drinks"];
+      if (drinksJson == null) return [];
+      return List<Drink>.from(drinksJson.map((d) => Drink.fromJson(d)));
     } catch (e) {
-      print("Error al obtener las cocktails: $e");
-      print("StackTrace: ${e.toString()}");
+      print("Error al obtener los datos: $e");
       return [];
     }
   }
@@ -51,7 +49,7 @@ class Drink {
       "strCategory": strCategory,
       "strAlcoholic": strAlcoholic,
       "strGlass": strGlass,
-      "strInstructionsES": strInstructionsES
+      "strInstructionsES": strInstructionsES,
     };
   }
 }
