@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
 
         primaryColor: Color(0xFF191919),
         hintColor: Color(0xFF777777),
-        scaffoldBackgroundColor: Color(0xFF1C1C1D),
+        scaffoldBackgroundColor: Color(0xFFE6E6E6),
 
         textTheme: TextTheme(
           headlineLarge: TextStyle(
@@ -41,7 +41,7 @@ class MyApp extends StatelessWidget {
         ),
 
         appBarTheme: AppBarTheme(
-          backgroundColor: Color(0xFF000000),
+          backgroundColor: Colors.white,
           foregroundColor: Colors.white,
           titleTextStyle: TextStyle(
             fontSize: 20,
